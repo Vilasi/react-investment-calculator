@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function Input({ children, id }) {
+export default function Input({ children, id, onUserInput }) {
   const [type, setType] = useState('text');
 
   function handleFocus() {
@@ -15,6 +15,7 @@ export default function Input({ children, id }) {
     <label htmlFor={id}>
       {children}
       <input
+        onChange={(e) => onUserInput(e.target.value, id)}
         onFocus={handleFocus}
         onBlur={handleBlur}
         id={id}
