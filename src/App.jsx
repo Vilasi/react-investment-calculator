@@ -1,7 +1,14 @@
+//? Import Components
+import Header from './components/Header';
+import UserInputGroup from './components/UserInputGroup';
+
 function App() {
   return (
-    <h1>React Investment Calculator</h1>
-  )
+    <>
+      <Header />
+      <UserInputGroup />
+    </>
+  );
 }
 
-export default App
+export default App;
