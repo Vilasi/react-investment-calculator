@@ -16,10 +16,7 @@ function App() {
     duration: 0,
   });
 
-  // console.log(calculateInvestmentResults, formatter);
-
   function handleInputData(value, inputField) {
-    // console.log(value, inputField);
     setInputData((previousData) => {
       return {
         ...previousData,
@@ -34,7 +31,6 @@ function App() {
     <>
       <Header />
       <UserInputGroup onUserInput={handleInputData} />
-      {/* The data results table will go here */}
       <Result dataResults={annualData} initialData={inputData} />
     </>
   );

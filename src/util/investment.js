@@ -36,3 +36,41 @@ export const formatter = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 0,
   maximumFractionDigits: 0,
 });
+
+export function getInvestedCapital(calculatedInvestmentResults, initialData) {
+  const investmentResultsArray = [
+    ...calculatedInvestmentResults.map((element) => {
+      return { ...element };
+    }),
+  ];
+
+  //? Derive the starting values for totalInterest and investedCapital
+  let investedCapital =
+    investmentResultsArray[0].valueEndOfYear -
+    investmentResultsArray[0].interest;
+
+  //? Formats the final data array to include totalInterest and investedCapital - derived from the original dataSet and calculatedInvestmentResults
+  const finalInvestmentResults = investmentResultsArray.map(
+    (dataObject, index) => {
+      if (index === 0) {
+        const investedCapitalVar = investedCapital;
+        return {
+          ...dataObject,
+          totalInterest: dataObject.valueEndOfYear - investedCapitalVar,
+          investedCapital: investedCapitalVar,
+        };
+      }
+
+      if (index >= 0) {
+        investedCapital += initialData.annualInvestment;
+        return {
+          ...dataObject,
+          totalInterest: dataObject.valueEndOfYear - investedCapital,
+          investedCapital: investedCapital,
+        };
+      }
+    }
+  );
+
+  return finalInvestmentResults;
+}

@@ -2,63 +2,15 @@
 import './Result.css';
 
 //? Import Util Functions
-import { formatter } from '../util/investment';
+import { formatter, getInvestedCapital } from '../util/investment';
 
 export default function Result({ dataResults, initialData }) {
-  //   console.log('from Result function', dataResults);
-
-  function getInvestedCapital(dataObjectArray) {
-    const permutedArray = [
-      ...dataObjectArray.map((element) => {
-        return { ...element };
-      }),
-    ];
-
-    // console.log('permutedArray', permutedArray);
-    //? Derive the starting values for totalInterest and investedCapital
-    let totalInterest = permutedArray[0].interest;
-    let investedCapital =
-      permutedArray[0].valueEndOfYear - permutedArray[0].interest;
-
-    // console.log('dataResults[0].interest', dataResults[2].interest);
-    // console.log(
-    //   'permutedArray[0].valueEndOfYear',
-    //   permutedArray[0].valueEndOfYear
-    // );
-    // console.log('permutedArray[0].interest', permutedArray[0].interest);
-    // console.log('totalInterest', totalInterest);
-    // console.log('investedCapital', investedCapital);
-
-    const updatedDataArray = permutedArray.map((dataObject, index) => {
-      if (index === 0) {
-        const investedCapitalVar = investedCapital;
-        return {
-          ...dataObject,
-          totalInterest: dataObject.valueEndOfYear - investedCapitalVar,
-          investedCapital: investedCapitalVar,
-        };
-      }
-
-      if (index >= 0) {
-        investedCapital += initialData.annualInvestment;
-        return {
-          ...dataObject,
-          totalInterest: dataObject.valueEndOfYear - investedCapital,
-          investedCapital: investedCapital,
-        };
-      }
-    });
-
-    console.log('updated data array', updatedDataArray);
-    return updatedDataArray;
-  }
-
-  let finalInvestmentResults;
+  //? This will only run after the calculateInvestmentResults function has processed the data
+  let formattedInvestmentResults;
   if (dataResults.length > 0) {
-    finalInvestmentResults = getInvestedCapital(dataResults);
+    formattedInvestmentResults = getInvestedCapital(dataResults, initialData);
   }
 
-  console.log(finalInvestmentResults);
   return (
     <table id="result">
       <thead>
@@ -71,10 +23,10 @@ export default function Result({ dataResults, initialData }) {
         </tr>
       </thead>
       <tbody>
-        {finalInvestmentResults &&
-          finalInvestmentResults.map((dataObject) => {
+        {formattedInvestmentResults &&
+          formattedInvestmentResults.map((dataObject) => {
             return (
-              <tr>
+              <tr key={dataObject.year}>
                 <td>{dataObject.year}</td>
                 <td>
                   {formatter.format(Math.ceil(dataObject.valueEndOfYear))}
