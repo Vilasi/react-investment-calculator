@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function Input({ children, id, onUserInput }) {
+export default function Input({ children, id, onUserInput, userInput }) {
   const [type, setType] = useState('text');
 
   function handleFocus() {
@@ -21,6 +21,7 @@ export default function Input({ children, id, onUserInput }) {
         id={id}
         type={type}
         name={id}
+        value={userInput[id]}
         required
       />
     </label>

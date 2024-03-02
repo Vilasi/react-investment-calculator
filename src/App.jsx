@@ -10,10 +10,10 @@ import { calculateInvestmentResults } from './util/investment';
 
 function App() {
   const [inputData, setInputData] = useState({
-    initialInvestment: 0,
-    annualInvestment: 0,
-    expectedReturn: 0,
-    duration: 0,
+    initialInvestment: null,
+    annualInvestment: null,
+    expectedReturn: null,
+    duration: null,
   });
 
   function handleInputData(value, inputField) {
@@ -30,7 +30,7 @@ function App() {
   return (
     <>
       <Header />
-      <UserInputGroup onUserInput={handleInputData} />
+      <UserInputGroup onUserInput={handleInputData} value={inputData} />
       <Result dataResults={annualData} initialData={inputData} />
     </>
   );
